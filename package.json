@@ -1,0 +1,39 @@
+{
+  "name": "vvlv-lvl-2",
+  "version": "1.0.0",
+  "description": "Hexlet Front-end JS project level 2",
+  "main": "index.js",
+  "bin": {
+    "gendiff": "./src/bin/gendiff.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/v1valasvegan/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "hexlet",
+    "project",
+    "javascript",
+    "test",
+    "cli",
+    "ci",
+    "cd"
+  ],
+  "author": "v1valasvegan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/v1valasvegan/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/v1valasvegan/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4"
+  },
+  "dependencies": {
+    "commander": "^4.1.1"
+  }
+}
