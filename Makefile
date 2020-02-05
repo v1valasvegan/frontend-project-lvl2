@@ -3,3 +3,6 @@ install lint:
 
 publish:
 		npm publish --dry-run
+
+publink:
+		npm publish --dry-run | npm link
