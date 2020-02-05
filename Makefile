@@ -6,3 +6,6 @@ publish:
 
 publink:
 		npm publish --dry-run | npm link
+
+start:
+		npx node src/bin/gendiff.js
