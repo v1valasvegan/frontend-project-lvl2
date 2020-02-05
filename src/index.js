@@ -2,7 +2,10 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 
-const buildFilePath = (filename) => path.resolve(filename);
+const buildFilePath = (filename) => {
+  console.log(filename);
+  return path.resolve(filename);
+};
 
 const makeAcc = (coll1, coll2) => (acc, key) => {
   if (coll1[key] === coll2[key]) {
@@ -25,4 +28,5 @@ export default (firstConfig, secondConfig) => {
   const diff = keys.reduce((acc, current) => buildAcc(acc, current), '');
   const result = diff === '' ? '' : `{\n${diff}}`;
   console.log(result);
+  return result;
 };

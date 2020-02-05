@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import genDiff from '../../index.js';
+import genDiff from '..';
 
 program
   .version('1.0.0')
@@ -10,10 +10,6 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfig, secondConfig) => {
     genDiff(firstConfig, secondConfig);
-  })
+  });
 
-  program.parse(process.argv);
-
-  
-
-
+program.parse(process.argv);

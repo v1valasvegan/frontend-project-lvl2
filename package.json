@@ -4,12 +4,16 @@
   "description": "Hexlet Front-end JS project level 2",
   "main": "index.js",
   "bin": {
-    "gendiff": "./src/bin/gendiff.js"
+    "gendiff": "./dist/bin/gendiff.js"
   },
   "scripts": {
-    "test": "test"
+    "test": "jest",
+    "build": "NODE_ENV=production babel src --out-dir dist",
+    "prepublishOnly": "npm run build"
   },
-  "type": "module",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/v1valasvegan/frontend-project-lvl2.git"
@@ -33,7 +37,14 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
-    "@babel/preset-env": "^7.8.4"
+    "@babel/preset-env": "^7.8.4",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.20.1",
+    "jest": "^25.1.0"
   },
   "dependencies": {
     "commander": "^4.1.1"

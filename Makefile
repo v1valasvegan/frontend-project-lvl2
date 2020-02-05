@@ -9,3 +9,9 @@ publink:
 
 start:
 		npx node src/bin/gendiff.js
+
+test:
+	npx jest
+
+build:
+		npm run build
