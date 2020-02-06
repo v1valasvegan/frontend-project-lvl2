@@ -9,7 +9,7 @@ const buildFilePath = (filename) => {
 
 const makeAcc = (coll1, coll2) => (acc, key) => {
   if (coll1[key] === coll2[key]) {
-    return `${acc}${key}: ${coll1[key]}\n`;
+    return `${acc}  ${key}: ${coll1[key]}\n`;
   }
   const isKeyIn1 = Object.keys(coll1).includes(key);
   const isKeyIn2 = Object.keys(coll2).includes(key);
