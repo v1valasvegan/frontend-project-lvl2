@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import parsers from './parsers';
 
 const buildFilePath = (filename) => {
   console.log(filename);
@@ -21,12 +22,13 @@ const makeAcc = (coll1, coll2) => (acc, key) => {
 export default (firstConfig, secondConfig) => {
   const firstData = fs.readFileSync(buildFilePath(firstConfig), 'utf-8');
   const secondData = fs.readFileSync(buildFilePath(secondConfig), 'utf-8');
-  const firstJSON = JSON.parse(firstData);
-  const secondJSON = JSON.parse(secondData);
-  const keys = _.union(Object.keys(firstJSON), Object.keys(secondJSON));
-  const buildAcc = makeAcc(firstJSON, secondJSON);
+  const firstFormat = path.extname(firstConfig);
+  const secondFormat = path.extname(secondConfig);
+  const firstParsed = parsers[firstFormat](firstData, 'utf-8');
+  const secondParsed = parsers[secondFormat](secondData, 'utf-8');
+  const keys = _.union(Object.keys(firstParsed), Object.keys(secondParsed));
+  const buildAcc = makeAcc(firstParsed, secondParsed);
   const diff = keys.reduce((acc, current) => buildAcc(acc, current), '');
   const result = diff === '' ? '' : `{\n${diff}}`;
-  console.log(result);
   return result;
 };
