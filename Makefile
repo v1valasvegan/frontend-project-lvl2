@@ -18,3 +18,6 @@ build:
 
 test-coverage:
 	npm test -- --coverage
+
+make rec:
+	asciinema rec
