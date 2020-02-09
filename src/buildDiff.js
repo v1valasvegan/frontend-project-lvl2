@@ -11,7 +11,10 @@ export default (data1, data2) => {
     const isBothObjects = typeof value1 === 'object' && typeof value2 === 'object';
     if (_.has(coll1, key) && _.has(coll2, key) && isBothObjects) {
       const innerKeys = _.union(Object.keys(value1), Object.keys(value2));
-      return innerKeys.reduce((acc, curr) => ({ ...acc, [key]: iter(value1, value2, curr) }), {});
+      return innerKeys.reduce((acc, curr) => {
+        acc[key] = { ...acc[key], ...iter(value1, value2, curr) };
+        return acc;
+      }, {});
     }
 
     const firstPart = _.has(coll1, key) ? value1 : null;
