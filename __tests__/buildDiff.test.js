@@ -1,35 +1,7 @@
 import buildDiff from '../src/buildDiff';
 
-let flat1;
 let nested1;
 
-// const flat1 = { foo: 'bar', fee: 'beer', faa: 'bur'};
-// const flat2 = { foo: 'bar', fee: 'bar', fuu: 'nk'};
-
-// const ast = {
-//   foo: bar,
-//   fee: ['beer', 'bar'],
-//   faa: ['bur', null]
-//   fuu: [null, 'nk'],
-// };
-
-// const nested1 = { foo: { bar: 'baz', bir: 'biz', bur: 'buz' } };
-// const nestet2 = { foo: { bar: 'baz, bir: bur', blir: 'blur' } };
-// const ast = { 
-//   foo: [
-//     { bar: baz}
-//   ]
-// }
-
-
-// ast = {
-//   go: {
-//     o: [
-//       'gle'
-//     ]
-//   }
-//   ]
-// }
 beforeEach(() => {
   nested1 = {
     goo: 'gle',

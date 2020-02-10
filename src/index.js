@@ -4,28 +4,52 @@ import path from 'path';
 import parsers from './parsers';
 import buildDiff from './buildDiff';
 
-const buildFilePath = (filename) => {
-  console.log(filename);
-  return path.resolve(filename);
+const initialIndent = 2;
+const indentStep = 4;
+
+const buildFilePath = (filename) => path.resolve(filename);
+
+const stringify = (data, iter) => {
+  const isObject = typeof data === 'object';
+  const keys = Object.keys(data).sort();
+  const result = isObject ? `{\n${keys.reduce((acc, curr) => `${acc}${iter(data, curr)}`, '')}  }\n` : `${data}\n`;
+  return result;
 };
 
-// const makeAcc = (coll1, coll2) => (acc, key) => {
-//   if (coll1[key] === coll2[key]) {
-//     return `${acc}  ${key}: ${coll1[key]}\n`;
-//   }
-//   const isKeyIn1 = Object.keys(coll1).includes(key);
-//   const isKeyIn2 = Object.keys(coll2).includes(key);
-//   const firstPart = isKeyIn1 ? `- ${key}: ${coll1[key]}\n` : '';
-//   const secondPart = isKeyIn2 ? `+ ${key}: ${coll2[key]}\n` : '';
-//   return `${acc}${firstPart}${secondPart}`;
-// };
+const formatWithIndents = (str) => {
+  const rows = str.split('\n');
+  let indent = initialIndent;
 
-const render = (key) => {
-  const { isEqual, value1, value2 } = key;
-  if (isEqual) {
-    return ` ${key}: `
-  }
-}
+  return rows.reduce((acc, curr, index, coll) => {
+    const previous = coll[index - 1];
+    if (previous && previous.slice(-1) === '{') {
+      indent += indentStep;
+    } else if (curr.slice(-1) === '}') {
+      indent -= indentStep;
+    }
+    return `${acc}\n${' '.repeat(indent)}${curr}`;
+  }, '');
+};
+
+const render = (diff) => {
+  const iter = (data, key) => {
+    const value = data[key];
+    if (typeof value === 'string') {
+      return `  ${key}: ${value}\n`;
+    }
+    if (value && !Array.isArray(value)) {
+      return `  ${key}: ${stringify(value, iter)}`;
+    }
+
+    const firstPart = value[0] !== null ? `- ${key}: ${stringify(value[0], iter)}` : '';
+    const secondPart = value[1] !== null ? `+ ${key}: ${stringify(value[1], iter)}` : '';
+    return `${firstPart}${secondPart}`;
+  };
+
+  const keys = Object.keys(diff).sort();
+  const raw = `${keys.reduce((acc, curr) => `${acc}${iter(diff, curr)}`, '')}`.trimEnd();
+  return `{${formatWithIndents(raw)}\n}`;
+};
 
 export default (firstConfig, secondConfig) => {
   const firstData = fs.readFileSync(buildFilePath(firstConfig), 'utf-8');
@@ -35,10 +59,5 @@ export default (firstConfig, secondConfig) => {
   const firstParsed = parsers[firstFormat](firstData, 'utf-8');
   const secondParsed = parsers[secondFormat](secondData, 'utf-8');
   const diff = buildDiff(firstParsed, secondParsed);
-  // const keys = _.union(Object.keys(firstParsed), Object.keys(secondParsed));
-  // const buildAcc = makeAcc(firstParsed, secondParsed);
-  // const diff = keys.reduce((acc, current) => buildAcc(acc, current), '');
-  // const result = diff === '' ? '' : `{\n${diff}}`;
-  // return result;
   return render(diff);
 };
