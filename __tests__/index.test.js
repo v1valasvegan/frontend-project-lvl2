@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import genDiff from '../dist';
 
-const formats = ['json'];
+const formats = ['json', 'yaml', 'ini'];
 let expected;
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
