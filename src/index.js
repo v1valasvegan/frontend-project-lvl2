@@ -51,7 +51,7 @@ const render = (diff) => {
   return `{${formatWithIndents(raw)}\n}`;
 };
 
-export default (firstConfig, secondConfig) => {
+export default (firstConfig, secondConfig, _format) => {
   const firstData = fs.readFileSync(buildFilePath(firstConfig), 'utf-8');
   const secondData = fs.readFileSync(buildFilePath(secondConfig), 'utf-8');
   const firstFormat = path.extname(firstConfig);

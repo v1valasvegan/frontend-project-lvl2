@@ -5,11 +5,11 @@ import genDiff from '..';
 
 program
   .version('1.0.0')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [plain]', 'choose output format [plain]', 'plain')
   .description('Compares two configuration files and shows a difference')
-  .arguments('<firstConfig> <secondConfig>')
-  .action((firstConfig, secondConfig) => {
-    const result = genDiff(firstConfig, secondConfig);
+  .arguments('[format], <firstConfig> <secondConfig>')
+  .action((firstConfig, secondConfig, format) => {
+    const result = genDiff(firstConfig, secondConfig, format);
     console.log(result);
   });
 
