@@ -5,9 +5,9 @@ import genDiff from '..';
 
 program
   .version('1.0.0')
-  .option('-f, --format [plain]', 'choose output format [plain]', 'plain')
+  .option('-f, --format [complex]', 'choose output format [complex]', 'complex')
   .description('Compares two configuration files and shows a difference')
-  .arguments('[format], <firstConfig> <secondConfig>')
+  .arguments('<firstConfig> <secondConfig> [format]')
   .action((firstConfig, secondConfig, format) => {
     const result = genDiff(firstConfig, secondConfig, format);
     console.log(result);

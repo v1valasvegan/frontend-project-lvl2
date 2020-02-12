@@ -10,8 +10,8 @@ const expected = fs.readFileSync(getFixturePath('result.txt'), 'utf-8');
 const expectedPlain = fs.readFileSync(getFixturePath('plainResult.txt'), 'utf-8');
 
 describe('gendiff', () => {
-  test.each(configs)('%p no format provided', (before, after) => {
-    expect(genDiff(before, after)).toEqual(expectedPlain);
+  test.each(configs)('%p default format', (before, after) => {
+    expect(genDiff(before, after)).toEqual(expected);
   });
 
   test.each(configs)('%p complex', (before, after) => {
