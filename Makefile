@@ -14,14 +14,17 @@ start:
 		npx node src/bin/gendiff.js
 
 test:
-	npx jest
+		npx jest
+
+lint:
+		npx eslint .
 
 build:
 		npm run build
 
 test-coverage:
-	npm test -- --coverage
+		npm test -- --coverage
 
 make rec:
-	asciinema rec
+		asciinema rec
 
