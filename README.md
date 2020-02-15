@@ -8,9 +8,9 @@
 
 Installation:
 
-`make install`
+`make install || make publink`
 
-https://asciinema.org/a/KxBFVnnSpCsUSuwckLL54Nrij
+[![asciicast](https://asciinema.org/a/BBIP3lxKyBluStNZD2JYlGzu4.svg)](https://asciinema.org/a/BBIP3lxKyBluStNZD2JYlGzu4)
 
 There are 3 file formats supported: json, yaml and ini. You can choose an output format using --format or its shorthanded alias -f. There are 3 options - plain (plain text), complex (JS Object like format) and json.
 
@@ -18,7 +18,7 @@ Use:
 
 `gendiff path1 path2 <--format>`
 
-https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V
+[![asciicast](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V.svg)](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V)
 
 
 
