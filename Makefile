@@ -1,5 +1,5 @@
 install:
-		install-deps
+		make install-deps
 
 install-deps:
 		npm ci
