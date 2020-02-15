@@ -1,5 +1,5 @@
 install:
-		install deps
+		install-deps
 
 publish:
 		npm publish --dry-run
