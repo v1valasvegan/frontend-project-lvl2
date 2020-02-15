@@ -1,0 +1,1 @@
+{"common":{"follow":[null,false],"setting1":"Value 1","setting2":[200,null],"setting3":[true,{"key":"value"}],"setting4":[null,"blah blah"],"setting5":[null,{"key5":"value5"}],"setting6":{"key":"value","ops":[null,"vops"]}},"group1":{"baz":["bas","bars"],"foo":"bar","nest":[{"key":"value"},"str"]},"group2":[{"abc":12345},null],"group3":[null,{"fee":100500}]}

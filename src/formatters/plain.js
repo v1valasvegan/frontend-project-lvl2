@@ -32,7 +32,7 @@ const buildPaths = (data, acc) => {
   if (_.isArray(data)) {
     return acc.slice(1);
   }
-  if (_.isObject(data)) {
+  if (_.isPlainObject(data)) {
     return _.compact(_.keys(data).flatMap((k) => buildPaths(data[k], `${acc}.${k}`))).sort();
   }
   return null;

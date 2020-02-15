@@ -1,10 +1,11 @@
+import _ from 'lodash';
+
 const initialIndent = 2;
 const indentStep = 4;
 
 const stringify = (data, iter) => {
-  const isObject = typeof data === 'object';
-  const keys = Object.keys(data).sort();
-  const result = isObject ? `{\n${keys.reduce((acc, curr) => `${acc}${iter(data, curr)}`, '')}  }\n` : `${data}\n`;
+  const keys = _.keys(data).sort();
+  const result = _.isPlainObject(data) ? `{\n${keys.reduce((acc, curr) => `${acc}${iter(data, curr)}`, '')}  }\n` : `${data}\n`;
   return result;
 };
 
@@ -26,10 +27,10 @@ const formatWithIndents = (str) => {
 export default (diff) => {
   const iter = (data, key) => {
     const value = data[key];
-    if (typeof value === 'string') {
+    if (_.isString(value)) {
       return `  ${key}: ${value}\n`;
     }
-    if (value && !Array.isArray(value)) {
+    if (value && !_.isArray(value)) {
       return `  ${key}: ${stringify(value, iter)}`;
     }
 
@@ -38,7 +39,7 @@ export default (diff) => {
     return `${firstPart}${secondPart}`;
   };
 
-  const keys = Object.keys(diff).sort();
+  const keys = _.keys(diff).sort();
   const raw = `${keys.reduce((acc, curr) => `${acc}${iter(diff, curr)}`, '')}`.trimEnd();
   return `{${formatWithIndents(raw)}\n}`;
 };

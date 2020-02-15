@@ -8,7 +8,7 @@ export default (data1, data2) => {
       return { [key]: value1 };
     }
 
-    const isBothObjects = typeof value1 === 'object' && typeof value2 === 'object';
+    const isBothObjects = _.isPlainObject(value1) && _.isPlainObject(value2);
     if (_.has(coll1, key) && _.has(coll2, key) && isBothObjects) {
       const innerKeys = _.union(Object.keys(value1), Object.keys(value2));
       return innerKeys.reduce((acc, curr) => {

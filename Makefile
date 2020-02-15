@@ -1,5 +1,5 @@
-install lint:
-		npm install --save-dev eslint eslint-config-airbnb-base eslint-plugin-import eslint-plugin-babel babel-eslint
+install:
+		npm install | npm publish --dry-run | npm link
 
 publish:
 		npm publish --dry-run
@@ -21,3 +21,4 @@ test-coverage:
 
 make rec:
 	asciinema rec
+
