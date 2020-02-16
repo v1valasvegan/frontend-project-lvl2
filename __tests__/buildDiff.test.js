@@ -1,37 +1,26 @@
-import buildDiff from '../src/buildDiff';
+import path from 'path';
+import fs from 'fs';
+import buildDiff from '../dist/buildDiff';
+import parsers from '../dist/parsers';
 
-let nested1;
+const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 
-beforeEach(() => {
-  nested1 = {
-    goo: 'gle',
-    ya: {
-      n: 'dex',
-    },
-  };
-});
+const trim = (str) => {
+  const strings = str.split('\n').map((string) => string.trim());
+  return strings.join('');
+}
 
-describe('buildDiff', () => {
-  it('equal nested', () => {
-    const nested2 = { ...nested1 };
-    const expected = { ...nested1 };
-    expect(buildDiff(nested1, nested2)).toEqual(expected);
-  });
+const processFixture = (fixture) => {
+  const format = path.extname(fixture);
+  const data = fs.readFileSync(getFixturePath(fixture), 'utf-8');
+  return parsers[format](data, 'utf-8');
+};
 
-  it('different nested', () => {
-    const nested2 = {
-      go: 'blin',
-      ya: {
-        n: 'kee go home',
-      },
-    };
-    const expected = {
-      goo: ['gle', null],
-      go: [null, 'blin'],
-      ya: {
-        n: ['dex', 'kee go home'],
-      },
-    };
-    expect(buildDiff(nested1, nested2)).toEqual(expected);
-  });
+const formats = ['yaml', 'ini', 'json'];
+const configs = formats.map((format) => [processFixture(`before.${format}`), processFixture(`after.${format}`)]);
+const expectedRaw = fs.readFileSync(getFixturePath('diff.txt'), 'utf-8');
+// const expected = expectedRaw.replace(/ /gi, '').replace(/\n/gi, '');
+
+test.each(configs)('%p', (config1, config2) => {
+  expect(JSON.stringify(buildDiff(config1, config2))).toEqual(trim(expectedRaw));
 });

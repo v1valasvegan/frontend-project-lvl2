@@ -4,7 +4,7 @@ import genDiff from '../dist';
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 
-const formats = ['yaml', 'ini'];
+const formats = ['yaml', 'ini', 'json'];
 const configs = formats.map((format) => [getFixturePath(`before.${format}`), getFixturePath(`after.${format}`)]);
 const expected = fs.readFileSync(getFixturePath('result.txt'), 'utf-8');
 const expectedPlain = fs.readFileSync(getFixturePath('plainResult.txt'), 'utf-8');

@@ -1,27 +1,27 @@
 import _ from 'lodash';
 
-export default (data1, data2) => {
+export default (config1, config2) => {
   const iter = (coll1, coll2, key) => {
     const value1 = coll1[key];
     const value2 = coll2[key];
     if (_.isEqual(value1, value2)) {
-      return { [key]: value1 };
+      return [key, 'unchanged', value1];
     }
 
-    const isBothObjects = _.isPlainObject(value1) && _.isPlainObject(value2);
-    if (_.has(coll1, key) && _.has(coll2, key) && isBothObjects) {
-      const innerKeys = _.union(Object.keys(value1), Object.keys(value2));
-      return innerKeys.reduce((acc, curr) => {
-        acc[key] = { ...acc[key], ...iter(value1, value2, curr) };
-        return acc;
-      }, {});
+    const areBothObjects = (val2, val1) => _.isPlainObject(val1) && _.isPlainObject(val2);
+
+    if (_.has(coll1, key) && _.has(coll2, key)) {
+      if (!areBothObjects(value1, value2)) {
+        return [key, 'changed', value1, value2];
+      }
+      const keys = _.union(_.keys(value1), _.keys(value2)).sort();
+      const children = keys.reduce((acc, curr) => [...acc, iter(value1, value2, curr)], []);
+      return [key, 'unchanged', children];
     }
 
-    const firstPart = _.has(coll1, key) ? value1 : null;
-    const secondPart = _.has(coll2, key) ? value2 : null;
-    return { [key]: [firstPart, secondPart] };
+    return _.has(coll1, key) ? [key, 'deleted', value1] : [key, 'added', value2];
   };
 
-  const keys = _.union(Object.keys(data1), Object.keys(data2));
-  return keys.reduce((acc, cur) => ({ ...acc, ...iter(data1, data2, cur) }), {});
+  const keys = _.union(_.keys(config1), _.keys(config2));
+  return keys.reduce((acc, key) => [...acc, iter(config1, config2, key)], []);
 };

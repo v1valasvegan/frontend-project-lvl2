@@ -1,0 +1,23 @@
+[
+  ["common","unchanged",[
+    ["follow","added",false],
+    ["setting1","unchanged","Value 1"],
+    ["setting2","deleted",200],
+    ["setting3","changed",true,{"key":"value"}],
+    ["setting4","added","blah blah"],
+    ["setting5","added",{"key5":"value5"}],
+    ["setting6","unchanged",[
+      ["key","unchanged","value"],
+      ["ops","added","vops"]
+      ]
+    ]
+  ]],
+  ["group1","unchanged",[
+    ["baz","changed","bas","bars"],
+    ["foo","unchanged","bar"],
+    ["nest","changed",{"key":"value"},"str"]
+  ]
+  ],
+  ["group2","deleted",{"abc":12345}],
+  ["group3","added",{"fee":100500}]
+]
