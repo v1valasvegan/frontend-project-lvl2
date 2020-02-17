@@ -1,14 +1,14 @@
 [
   ["common","unchanged",[
-    ["follow","added",false],
+    ["follow","added",null,false],
     ["setting1","unchanged","Value 1"],
-    ["setting2","deleted",200],
+    ["setting2","deleted",200,null],
     ["setting3","changed",true,{"key":"value"}],
-    ["setting4","added","blah blah"],
-    ["setting5","added",{"key5":"value5"}],
+    ["setting4","added",null,"blah blah"],
+    ["setting5","added",null,{"key5":"value5"}],
     ["setting6","unchanged",[
       ["key","unchanged","value"],
-      ["ops","added","vops"]
+      ["ops","added",null,"vops"]
       ]
     ]
   ]],
@@ -18,6 +18,6 @@
     ["nest","changed",{"key":"value"},"str"]
   ]
   ],
-  ["group2","deleted",{"abc":12345}],
-  ["group3","added",{"fee":100500}]
+  ["group2","deleted",{"abc":12345},null],
+  ["group3","added",null,{"fee":100500}]
 ]

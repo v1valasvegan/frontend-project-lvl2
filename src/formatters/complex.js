@@ -1,45 +1,40 @@
 import _ from 'lodash';
 
-const initialIndent = 2;
-const indentStep = 4;
+const indent = 4;
+const initial = 2;
 
-const stringify = (data, iter) => {
-  const keys = _.keys(data).sort();
-  const result = _.isPlainObject(data) ? `{\n${keys.reduce((acc, curr) => `${acc}${iter(data, curr)}`, '')}  }\n` : `${data}\n`;
-  return result;
+const makeIndent = (dep, ind) => ' '.repeat(dep * ind + initial);
+
+const stringify = (val, depth) => {
+  if (!_.isPlainObject(val)) {
+    return val;
+  }
+  return _.keys(val)
+    .map((key) => {
+      const value = val[key];
+      return `{\n${makeIndent(depth + 1, indent)}  ${key}: ${stringify(value, depth + 1)}\n${makeIndent(depth, indent)}  }`;
+    })
+    .join('\n');
 };
 
-const formatWithIndents = (str) => {
-  const rows = str.split('\n');
-  let indent = initialIndent;
 
-  return rows.reduce((acc, curr, index, coll) => {
-    const previous = coll[index - 1];
-    if (previous && previous.slice(-1) === '{') {
-      indent += indentStep;
-    } else if (curr.slice(-1) === '}') {
-      indent -= indentStep;
+const iter = (node, depth) => {
+  const [name, state, value1, value2 = null] = node;
+  const currentIndent = makeIndent(depth, indent);
+
+  if (state === 'unchanged') {
+    if (!_.isArray(value1)) {
+      return `${currentIndent}  ${name}: ${stringify(value1, depth)}`;
     }
-    return `${acc}\n${' '.repeat(indent)}${curr}`;
-  }, '');
+    return `${currentIndent}  ${name}: {\n${value1.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
+  }
+  const isAdded = state === 'added' || state === 'changed';
+  const isDeleted = state === 'deleted' || state === 'changed';
+  const isChanged = state === 'changed';
+  const deletedPart = isDeleted ? `${currentIndent}- ${name}: ${stringify(value1, depth)}` : '';
+  const addedPart = isAdded ? `${currentIndent}+ ${name}: ${stringify(value2, depth)}` : '';
+  const changedPart = isChanged ? '\n' : '';
+  return `${deletedPart}${changedPart}${addedPart}`;
 };
 
-export default (diff) => {
-  const iter = (data, key) => {
-    const value = data[key];
-    if (_.isString(value)) {
-      return `  ${key}: ${value}\n`;
-    }
-    if (value && !_.isArray(value)) {
-      return `  ${key}: ${stringify(value, iter)}`;
-    }
-
-    const firstPart = value[0] !== null ? `- ${key}: ${stringify(value[0], iter)}` : '';
-    const secondPart = value[1] !== null ? `+ ${key}: ${stringify(value[1], iter)}` : '';
-    return `${firstPart}${secondPart}`;
-  };
-
-  const keys = _.keys(diff).sort();
-  const raw = `${keys.reduce((acc, curr) => `${acc}${iter(diff, curr)}`, '')}`.trimEnd();
-  return `{${formatWithIndents(raw)}\n}`;
-};
+export default (diff) => `{\n${diff.map((n) => iter(n, 0)).join('\n')}\n}`;

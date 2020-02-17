@@ -19,7 +19,7 @@ export default (config1, config2) => {
       return [key, 'unchanged', children];
     }
 
-    return _.has(coll1, key) ? [key, 'deleted', value1] : [key, 'added', value2];
+    return _.has(coll1, key) ? [key, 'deleted', value1, null] : [key, 'added', null, value2];
   };
 
   const keys = _.union(_.keys(config1), _.keys(config2));
