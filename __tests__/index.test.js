@@ -11,19 +11,19 @@ const expectedPlain = fs.readFileSync(getFixturePath('plainResult.txt'), 'utf-8'
 const expectedJSON = fs.readFileSync(getFixturePath('jsonResult.json'), 'utf-8');
 
 describe('gendiff', () => {
-  // test.each(configs)('%p default format', (before, after) => {
-  //   expect(genDiff(before, after)).toEqual(expected);
-  // });
+  test.each(configs)('%p default format', (before, after) => {
+    expect(genDiff(before, after)).toEqual(expected);
+  });
 
   test.each(configs)('%p complex', (before, after) => {
     expect(genDiff(before, after, 'complex')).toEqual(expected);
   });
 
-  // test.each(configs)('%p plain', (before, after) => {
-  //   expect(genDiff(before, after, 'plain')).toEqual(expectedPlain);
-  // });
+  test.each(configs)('%p plain', (before, after) => {
+    expect(genDiff(before, after, 'plain')).toEqual(expectedPlain);
+  });
 
-  // test.each(configs)('%p json', (before, after) => {
-  //   expect(genDiff(before, after, 'json')).toEqual(expectedJSON);
-  // });
+  test.each(configs)('%p json', (before, after) => {
+    expect(genDiff(before, after, 'json')).toEqual(expectedJSON);
+  });
 });
