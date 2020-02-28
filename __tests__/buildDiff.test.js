@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import buildDiff from '../dist/buildDiff';
-import parsers from '../dist/parsers';
+import parsers from '../src/parsers';
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 
