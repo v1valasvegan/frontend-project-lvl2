@@ -11,8 +11,8 @@ export default (config1, config2, format) => {
   const data2 = fs.readFileSync(buildFilePath(config2), 'utf-8');
   const format1 = path.extname(config1);
   const format2 = path.extname(config2);
-  const parsed1 = parsers[format1](data1, 'utf-8');
-  const parsed2 = parsers[format2](data2, 'utf-8');
+  const parsed1 = parsers(format1)(data1, 'utf-8');
+  const parsed2 = parsers(format2)(data2, 'utf-8');
   const diff = buildDiff(parsed1, parsed2);
   return formatter(format)(diff);
 };
