@@ -19,7 +19,9 @@ const stringify = (val, depth) => {
 
 
 const iter = (node, depth) => {
-  const [name, state, value1, value2 = null] = node;
+  const {
+    name, state, value1, value2 = null,
+  } = node;
   const currentIndent = makeIndent(depth, indent);
 
   if (state === 'unchanged') {
