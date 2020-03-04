@@ -31,9 +31,7 @@ const buildDiff = (config1, config2) => {
   };
 
   const keys = _.union(_.keys(config1), _.keys(config2)).sort();
-  const result = keys.map((key) => iter(config1, config2, key));
-  console.log(result);
-  return result;
+  return keys.map((key) => iter(config1, config2, key));
 };
 
 export default buildDiff;
