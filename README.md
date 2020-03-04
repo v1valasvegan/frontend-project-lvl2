@@ -19,6 +19,7 @@ Use:
 
 `gendiff path1 path2 <--format>`
 
+
 [![asciicast](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V.svg)](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V)
 
 
