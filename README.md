@@ -12,12 +12,12 @@ Installation:
 
 
 [![asciicast](https://asciinema.org/a/BBIP3lxKyBluStNZD2JYlGzu4.svg)](https://asciinema.org/a/BBIP3lxKyBluStNZD2JYlGzu4)
-
 </br>
 Supported json, yaml and ini formats. You can choose an output format using --format or its shorthanded alias -f. There are 3 options - plain (plain text), complex (JS Object like format) and json.
 
+Use: 
 
-Use: `gendiff path1 path2 <--format>`
+`gendiff path1 path2 <--format>`
 
 
 [![asciicast](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V.svg)](https://asciinema.org/a/gP4SNlgX9lwt7tsASrepvtc4V)
