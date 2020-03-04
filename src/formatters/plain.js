@@ -19,7 +19,9 @@ const enumTemplates = {
 };
 
 const buildTemplateData = (data, acc) => {
-  const [name, state, value1, value2] = data;
+  const {
+    name, state, value1, value2,
+  } = data;
   const newAcc = `${acc}.${name}`;
   if (state === 'unchanged') {
     return _.isArray(value1) ? value1.flatMap((item) => buildTemplateData(item, newAcc)) : null;
