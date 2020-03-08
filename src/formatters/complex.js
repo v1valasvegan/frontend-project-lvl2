@@ -20,15 +20,15 @@ const stringify = (val, depth) => {
 
 const iter = (node, depth) => {
   const {
-    name, state, value1, value2 = null,
+    name, state, value1, value2 = null, children,
   } = node;
   const currentIndent = makeIndent(depth, indent);
 
   if (state === 'unchanged') {
-    if (!_.isArray(value1)) {
+    if (!children) {
       return `${currentIndent}  ${name}: ${stringify(value1, depth)}`;
     }
-    return `${currentIndent}  ${name}: {\n${value1.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
+    return `${currentIndent}  ${name}: {\n${children.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
   }
   const isAdded = state === 'added' || state === 'changed';
   const isDeleted = state === 'deleted' || state === 'changed';

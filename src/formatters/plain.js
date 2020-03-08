@@ -20,11 +20,11 @@ const enumTemplates = {
 
 const buildTemplateData = (data, acc) => {
   const {
-    name, state, value1, value2,
+    name, state, value1, value2, children,
   } = data;
   const newAcc = `${acc}.${name}`;
   if (state === 'unchanged') {
-    return _.isArray(value1) ? value1.flatMap((item) => buildTemplateData(item, newAcc)) : null;
+    return children ? children.flatMap((item) => buildTemplateData(item, newAcc)) : null;
   }
   return { data: { state, value1, value2 }, path: newAcc.slice(1) };
 };
