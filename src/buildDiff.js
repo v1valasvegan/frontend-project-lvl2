@@ -7,27 +7,28 @@ const buildDiff = (config1, config2) => {
 
     if (_.has(coll1, key) && !_.has(coll2, key)) {
       return {
-        name: key, state: 'deleted', value1, value2: null,
+        name: key, type: 'deleted', value1, value2: null,
       };
     }
 
     if (!_.has(coll1, key) && _.has(coll2, key)) {
       return {
-        name: key, state: 'added', value1: null, value2,
+        name: key, type: 'added', value1: null, value2,
       };
     }
 
     if (_.isEqual(value1, value2)) {
-      return { name: key, state: 'unchanged', value1 };
+      return { name: key, type: 'unchanged', value1 };
     }
+
     const areBothObjects = (val2, val1) => _.isPlainObject(val1) && _.isPlainObject(val2);
     if (!areBothObjects(value1, value2)) {
       return {
-        name: key, state: 'changed', value1, value2,
+        name: key, type: 'changed', value1, value2,
       };
     }
 
-    return { name: key, state: 'unchanged', children: buildDiff(value1, value2) };
+    return { name: key, type: 'changedNode', children: buildDiff(value1, value2) };
   };
 
   const keys = _.union(_.keys(config1), _.keys(config2)).sort();
