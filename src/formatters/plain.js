@@ -16,24 +16,30 @@ const enumTemplates = {
   deleted: () => 'deleted',
   added: (_v1, v2) => `added with ${stringify(v2)}`,
   changed: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
+  changedNode: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
+  unchanged: () => '',
 };
 
 const buildTemplateData = (data, acc) => {
   const {
-    name, state, value1, value2, children,
+    name, type, value1, value2, children,
   } = data;
   const newAcc = `${acc}.${name}`;
-  if (state === 'unchanged') {
-    return children ? children.flatMap((item) => buildTemplateData(item, newAcc)) : null;
+  if (type === 'unchanged') {
+    return null;
   }
-  return { data: { state, value1, value2 }, path: newAcc.slice(1) };
-};
 
+  if (type === 'changedNode') {
+    return children.flatMap((item) => buildTemplateData(item, newAcc));
+  }
+
+  return { data: { type, value1, value2 }, path: newAcc.slice(1) };
+};
 
 export default (diff) => {
   const processedData = diff.flatMap((item) => buildTemplateData(item, ''));
   const templateData = _.compact(processedData);
-  return templateData.map(({ data: { state, value1, value2 }, path }) => (
-    `${commonTemplate(path)}${enumTemplates[state](value1, value2)}`
+  return templateData.map(({ data: { type, value1, value2 }, path }) => (
+    `${commonTemplate(path)}${enumTemplates[type](value1, value2)}`
   )).join('\n');
 };

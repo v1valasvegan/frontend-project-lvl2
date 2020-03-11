@@ -20,23 +20,30 @@ const stringify = (val, depth) => {
 
 const iter = (node, depth) => {
   const {
-    name, state, value1, value2 = null, children,
+    name, type, value1, value2 = null, children,
   } = node;
   const currentIndent = makeIndent(depth, indent);
 
-  if (state === 'unchanged') {
-    if (!children) {
+  switch (type) {
+    case 'unchanged': {
       return `${currentIndent}  ${name}: ${stringify(value1, depth)}`;
     }
-    return `${currentIndent}  ${name}: {\n${children.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
+    case 'changedNode': {
+      return `${currentIndent}  ${name}: {\n${children.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
+    }
+    case 'added': {
+      return `${currentIndent}+ ${name}: ${stringify(value2, depth)}`;
+    }
+    case 'deleted': {
+      return `${currentIndent}- ${name}: ${stringify(value1, depth)}`;
+    }
+    case 'changed': {
+      return `${currentIndent}- ${name}: ${stringify(value1, depth)}\n${currentIndent}+ ${name}: ${stringify(value2, depth)}`;
+    }
+    default: {
+      throw new Error(`Unknown type ${type}`);
+    }
   }
-  const isAdded = state === 'added' || state === 'changed';
-  const isDeleted = state === 'deleted' || state === 'changed';
-  const isChanged = state === 'changed';
-  const deletedPart = isDeleted ? `${currentIndent}- ${name}: ${stringify(value1, depth)}` : '';
-  const addedPart = isAdded ? `${currentIndent}+ ${name}: ${stringify(value2, depth)}` : '';
-  const changedPart = isChanged ? '\n' : '';
-  return `${deletedPart}${changedPart}${addedPart}`;
 };
 
 export default (diff) => `{\n${diff.map((n) => iter(n, 0)).join('\n')}\n}`;
