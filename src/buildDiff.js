@@ -5,14 +5,16 @@ const buildDiff = (config1, config2) => {
     const value1 = coll1[key];
     const value2 = coll2[key];
 
-    if (!_.has(coll1, key) || !_.has(coll2, key)) {
-      return _.has(coll1, key)
-        ? {
-          name: key, state: 'deleted', value1, value2: null,
-        }
-        : {
-          name: key, state: 'added', value1: null, value2,
-        };
+    if (_.has(coll1, key) && !_.has(coll2, key)) {
+      return {
+        name: key, state: 'deleted', value1, value2: null,
+      };
+    }
+
+    if (!_.has(coll1, key) && _.has(coll2, key)) {
+      return {
+        name: key, state: 'added', value1: null, value2,
+      };
     }
 
     if (_.isEqual(value1, value2)) {
