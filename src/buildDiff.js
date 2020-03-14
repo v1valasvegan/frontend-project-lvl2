@@ -28,7 +28,7 @@ const buildDiff = (config1, config2) => {
       };
     }
 
-    return { name: key, type: 'changedNode', children: buildDiff(value1, value2) };
+    return { name: key, type: 'nested', children: buildDiff(value1, value2) };
   };
 
   const keys = _.union(_.keys(config1), _.keys(config2)).sort();

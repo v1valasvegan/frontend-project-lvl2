@@ -28,7 +28,7 @@ const iter = (node, depth) => {
     case 'unchanged': {
       return `${currentIndent}  ${name}: ${stringify(value1, depth)}`;
     }
-    case 'changedNode': {
+    case 'nested': {
       return `${currentIndent}  ${name}: {\n${children.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
     }
     case 'added': {

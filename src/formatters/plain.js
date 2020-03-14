@@ -16,7 +16,7 @@ const enumTemplates = {
   deleted: () => 'deleted',
   added: (_v1, v2) => `added with ${stringify(v2)}`,
   changed: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
-  changedNode: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
+  nested: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
   unchanged: () => '',
 };
 
@@ -29,7 +29,7 @@ const buildTemplateData = (data, acc) => {
     return null;
   }
 
-  if (type === 'changedNode') {
+  if (type === 'nested') {
     return children.flatMap((item) => buildTemplateData(item, newAcc));
   }
 
