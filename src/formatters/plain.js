@@ -15,7 +15,7 @@ const enumTemplates = {
   added: (_v1, v2) => `added with ${stringify(v2)}`,
   changed: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
   nested: (v1, v2) => `changed from ${stringify(v1, true)} to ${stringify(v2, true)}`,
-  unchanged: () => '',
+  unchanged: () => null,
 };
 
 const buildTemplateData = (data, acc) => {
