@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-const commonTemplate = (path) => `Property '${path}' was `;
-
 const stringify = (value, changed = false) => {
   if (_.isString(value)) {
     return changed ? `'${value}'` : `value: '${value}'`;
@@ -25,21 +23,21 @@ const buildTemplateData = (data, acc) => {
     name, type, value1, value2, children,
   } = data;
   const newAcc = `${acc}.${name}`;
-  if (type === 'unchanged') {
-    return null;
-  }
 
-  if (type === 'nested') {
-    return children.flatMap((item) => buildTemplateData(item, newAcc));
+  switch (type) {
+    case 'unchanged': return null;
+    case 'nested': return children.flatMap((item) => buildTemplateData(item, newAcc));
+    case 'added': return { data: { type, value1, value2 }, path: newAcc.slice(1) };
+    case 'deleted': return { data: { type, value1, value2 }, path: newAcc.slice(1) };
+    case 'changed': return { data: { type, value1, value2 }, path: newAcc.slice(1) };
+    default: throw new Error(`Unknown type ${type}`);
   }
-
-  return { data: { type, value1, value2 }, path: newAcc.slice(1) };
 };
 
 export default (diff) => {
   const processedData = diff.flatMap((item) => buildTemplateData(item, ''));
   const templateData = _.compact(processedData);
   return templateData.map(({ data: { type, value1, value2 }, path }) => (
-    `${commonTemplate(path)}${enumTemplates[type](value1, value2)}`
+    `Property '${path}' was ${enumTemplates[type](value1, value2)}`
   )).join('\n');
 };
