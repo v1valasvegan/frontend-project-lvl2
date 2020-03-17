@@ -9,7 +9,7 @@ const processIni = (iniObj) => {
     }
     return processIni(value);
   };
-  const parsedEntries = _.entries(iniObj).map(([key, value]) => [key, iter(value)]);
+  const parsedEntries = Object.entries(iniObj).map(([key, value]) => [key, iter(value)]);
   return Object.fromEntries(parsedEntries);
 };
 

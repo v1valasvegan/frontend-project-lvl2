@@ -9,7 +9,7 @@ const stringify = (val, depth) => {
   if (!_.isPlainObject(val)) {
     return val;
   }
-  return _.keys(val)
+  return Object.keys(val)
     .map((key) => {
       const value = val[key];
       return `{\n${makeIndent(depth + 1, indent)}  ${key}: ${stringify(value, depth + 1)}\n${makeIndent(depth, indent)}  }`;

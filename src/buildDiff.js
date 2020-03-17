@@ -31,7 +31,7 @@ const buildDiff = (config1, config2) => {
     return { name: key, type: 'nested', children: buildDiff(value1, value2) };
   };
 
-  const keys = _.union(_.keys(config1), _.keys(config2)).sort();
+  const keys = _.union(Object.keys(config1), Object.keys(config2)).sort();
   return keys.map((key) => iter(config1, config2, key));
 };
 
