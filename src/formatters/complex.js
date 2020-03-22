@@ -15,7 +15,7 @@ const stringify = (val, depth) => {
     .join('\n');
 };
 
-const process = (tree, depth = 0) => {
+const process = (tree, depth) => {
   const iter = (node, dep) => {
     const {
       name, type, value1, value2 = null, children,
@@ -35,4 +35,4 @@ const process = (tree, depth = 0) => {
   return `{\n${tree.map((n) => iter(n, depth)).join('\n')}\n${' '.repeat(depth * indent)}}`;
 };
 
-export default process;
+export default (diff) => process(diff, 0);
