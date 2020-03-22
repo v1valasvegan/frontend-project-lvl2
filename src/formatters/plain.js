@@ -25,7 +25,7 @@ const process = (tree, pathAcc) => {
     }
   };
 
-  const processedNodes = tree.flatMap((node) => (iter(node, pathAcc)));
+  const processedNodes = tree.map((node) => (iter(node, pathAcc)));
   return _.compact(processedNodes).join('\n');
 };
 
