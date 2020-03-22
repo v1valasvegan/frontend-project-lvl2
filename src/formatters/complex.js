@@ -3,8 +3,6 @@ import _ from 'lodash';
 const indent = 4;
 const initial = 2;
 
-const makeIndent = (dep, ind) => ' '.repeat(dep * ind + initial);
-
 const stringify = (val, depth) => {
   if (!_.isPlainObject(val)) {
     return val;
@@ -12,38 +10,29 @@ const stringify = (val, depth) => {
   return Object.keys(val)
     .map((key) => {
       const value = val[key];
-      return `{\n${makeIndent(depth + 1, indent)}  ${key}: ${stringify(value, depth + 1)}\n${makeIndent(depth, indent)}  }`;
+      return `{\n${' '.repeat((depth + 1) * indent + initial)}  ${key}: ${stringify(value, depth + 1)}\n${' '.repeat((depth + 1) * indent)}}`;
     })
     .join('\n');
 };
 
+const process = (tree, depth = 0) => {
+  const iter = (node, dep) => {
+    const {
+      name, type, value1, value2 = null, children,
+    } = node;
+    const currentIndent = ' '.repeat((dep) * indent + initial);
 
-const iter = (node, depth) => {
-  const {
-    name, type, value1, value2 = null, children,
-  } = node;
-  const currentIndent = makeIndent(depth, indent);
+    switch (type) {
+      case 'unchanged': return `${currentIndent}  ${name}: ${stringify(value1, dep)}`;
+      case 'nested': return `${currentIndent}  ${name}: ${process(children, dep + 1)}`;
+      case 'added': return `${currentIndent}+ ${name}: ${stringify(value2, dep)}`;
+      case 'deleted': return `${currentIndent}- ${name}: ${stringify(value1, dep)}`;
+      case 'changed': return `${currentIndent}- ${name}: ${stringify(value1, dep)}\n${currentIndent}+ ${name}: ${stringify(value2, dep)}`;
+      default: throw new Error(`Unknown type ${type}`);
+    }
+  };
 
-  switch (type) {
-    case 'unchanged': {
-      return `${currentIndent}  ${name}: ${stringify(value1, depth)}`;
-    }
-    case 'nested': {
-      return `${currentIndent}  ${name}: {\n${children.map((n) => iter(n, depth + 1)).join('\n')}\n${currentIndent}  }`;
-    }
-    case 'added': {
-      return `${currentIndent}+ ${name}: ${stringify(value2, depth)}`;
-    }
-    case 'deleted': {
-      return `${currentIndent}- ${name}: ${stringify(value1, depth)}`;
-    }
-    case 'changed': {
-      return `${currentIndent}- ${name}: ${stringify(value1, depth)}\n${currentIndent}+ ${name}: ${stringify(value2, depth)}`;
-    }
-    default: {
-      throw new Error(`Unknown type ${type}`);
-    }
-  }
+  return `{\n${tree.map((n) => iter(n, depth)).join('\n')}\n${' '.repeat(depth * indent)}}`;
 };
 
-export default (diff) => `{\n${diff.map((n) => iter(n, 0)).join('\n')}\n}`;
+export default process;
