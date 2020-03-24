@@ -17,7 +17,7 @@ const process = (tree, pathAcc) => {
 
     switch (type) {
       case 'unchanged': return null;
-      case 'changed': return `Property ${path} was changed from ${stringify(value1, true)} to ${stringify(value2, true)}`;
+      case 'changed': return `Property ${path} was changed from ${stringify(value1)} to ${stringify(value2)}`;
       case 'nested': return process(children, newAcc);
       case 'deleted': return `Property ${path} was deleted`;
       case 'added': return `Property ${path} was added with ${valuePrefix(value2)}${stringify(value2)}`;
