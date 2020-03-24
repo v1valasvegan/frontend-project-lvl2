@@ -10,7 +10,9 @@ const stringify = (val, depth) => {
   return Object.keys(val)
     .map((key) => {
       const value = val[key];
-      return `{\n${' '.repeat((depth + 1) * indent + initial)}  ${key}: ${stringify(value, depth + 1)}\n${' '.repeat((depth + 1) * indent)}}`;
+      const currentValue = stringify(value, depth + 1);
+      const currentDepth = (depth + 1) * indent;
+      return `{\n${' '.repeat(currentDepth + initial)}  ${key}: ${currentValue}\n${' '.repeat(currentDepth)}}`;
     })
     .join('\n');
 };
